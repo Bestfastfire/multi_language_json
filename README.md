@@ -99,6 +99,10 @@ It will return: **B**
 #### with inRoute false:
 It will return: **A**
 
+Another very interesting point, if the past route does not exist in the current language, it will search in the standard language, and if it does not exist there, it will return a string with the text 'NULL', ex:
+
+![Gravar_2020_04_12_05_49_28_636~1](https://user-images.githubusercontent.com/22732544/79065457-ce7d4700-7c86-11ea-8da2-21a03b78f62c.gif)
+
 # Changing Language
 For this, every language node must have a child named config with the following attributes:
 
