@@ -1,5 +1,5 @@
 # Stream Language
-Check it out at [Pub.Dev](https://pub.dev/packages/multi_language)
+Check it out at [Pub.Dev](https://pub.dev/packages/multi_language_json)
 
 A simple way to support your Flutter application with multiple languages!
 
