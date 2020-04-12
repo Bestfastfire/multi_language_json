@@ -3,17 +3,17 @@ Check it out at [Pub.Dev](https://pub.dev/packages/multi_language)
 
 A simple way to support your Flutter application with multiple languages!
 
-![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/22732544/65823906-9b68ee00-e235-11e9-989c-1c05a845b832.gif)
+![Gravar_2020_04_12_05_50_22_436](https://user-images.githubusercontent.com/22732544/79065252-6aa64e80-7c85-11ea-99f4-32904a624331.gif)
 
 ## Getting Started
 First you need create a directory in your main folder with name lang like this:
 
-<image>
+![Screenshot_20](https://user-images.githubusercontent.com/22732544/79065270-81e53c00-7c85-11ea-87cb-e39040d1cb6a.png)
 
 Note that each json file must have its language and country code as its name.
 Remember to add them to your pubspec:
 
-<IMAGE>
+![Screenshot_21](https://user-images.githubusercontent.com/22732544/79065273-83166900-7c85-11ea-914b-3ae277816c36.png)
 
 In the code, to start you must first create an object with the following attributes:
     final language = MultiLanguageBloc(
@@ -30,7 +30,7 @@ MultiLanguageBloc is a singleton, after the first start, it will have the same a
 ### CommonRoute:
 Here you enter the key within the language that contains words that can be used on more than one screen as in the example below:
 
-<Image>
+![Screenshot_22](https://user-images.githubusercontent.com/22732544/79065283-94f80c00-7c85-11ea-9d39-05b6e38bdcc3.png)
 
 The first time you use firebase language you should do this:
 
@@ -41,7 +41,7 @@ The first time you use firebase language you should do this:
        supportedLanguages: [
          'en_US', 'pt_BR'
        ]
-   );
+    );
 
     @override
     Widget build(BuildContext context) {
@@ -76,30 +76,35 @@ The first time you use firebase language you should do this:
 
 From the next you start using only the `MultiStreamLanguage` widget, the first one is needed because the first app should load all language and start the default language from the user's mobile language.
 
-## Widget StreamLanguage
+## Widget MultiStreamLanguage
 
 ### ScreenRoute
 This is where the magic happens, as a parameter it receives the screen route within the language key, see that in the code above is as:
 `screenRoute: ['home']`, in json it looks like this:
 
-<IMAGE>
+![Screenshot_23](https://user-images.githubusercontent.com/22732544/79065294-a17c6480-7c85-11ea-9e89-e34f30fdd2fe.png)
 
 If the route were a node within 'home' you would go something like this: `screenRoute: ['home', 'route_inside_home']`
 
 ### [Very Important] Builder -> Data
-Here is the parent object to access the texts, for that use the getValue method that has *route* as parameter, here it will work like ScreenRoute, its second parameter is *inRoute*, if true, the passed route will be traveled inside the path gives wheel informed in *ScreenRoute*, if false, it will look in the parent route, that is, in the beginning of json, ex:
+Here is the parent object to access the texts, for that use the getValue method that has **route** as parameter, here it will work like ScreenRoute, its second parameter is **inRoute**, if true, the passed route will be traveled inside the path gives wheel informed in **ScreenRoute**, if false, it will look in the parent route, that is, in the beginning of json, ex:
 
-<IMAGE>
+if i called `data.getValue(route: ['my_route'], inRoute: true/false);`
 
-#### inRoute true:
-It will return: *B*
+![Screenshot_23](https://user-images.githubusercontent.com/22732544/79065294-a17c6480-7c85-11ea-9e89-e34f30fdd2fe.png)
 
-#### inRoute false:
-It will return: *A*
+#### with inRoute true:
+It will return: **B**
+
+#### with inRoute false:
+It will return: **A**
 
 # Changing Language
 For this, every language node must have a child named config with the following attributes:
-![Captura de Tela (104)](https://user-images.githubusercontent.com/22732544/65823821-c5211580-e233-11e9-8df3-666120569cbf.png)
+
+![Screenshot_18](https://user-images.githubusercontent.com/22732544/79065332-e7d1c380-7c85-11ea-9380-8262ba6b5a8d.png)
+
+The **title** key is what will appear as the language name in the dialog you select.
 
 After that you can call the method:
 
@@ -111,7 +116,7 @@ After that you can call the method:
 
 This will show an alert dialog like this (Language and flag listing is done automatically from the data passed in the **config** node):
 
-<IMAGE>
+![Screenshot_19](https://user-images.githubusercontent.com/22732544/79065375-4139f280-7c86-11ea-94bc-7202dfad3be1.png)
 
 To change the language programmatically, just call this method passing as the language prefix ex:
 
