@@ -1,0 +1,20 @@
+{
+  "home" : {
+    "title" : "Tela Inicial",
+    "btn" : "Clique Aqui"
+  },
+  "common" : {
+    "add" : "Add",
+    "cancel" : "Cancel",
+    "close" : "Close"
+  },
+  "dialog" : {
+    "title" : "Trocar Linguagem:",
+    "btn_negative" : "Cancelar"
+  },
+  "config" : {
+    "iso_code" : "BR",
+    "prefix" : "pt_BR",
+    "title" : "Português"
+  }
+}

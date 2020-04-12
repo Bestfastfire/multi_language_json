@@ -1,0 +1,15 @@
+{
+  "home" : {
+    "title" : "Home",
+    "btn" : "Click Here"
+  },
+  "dialog" : {
+    "title" : "Change Language:",
+    "btn_negative" : "Cancel"
+  },
+  "config" : {
+    "iso_code" : "US",
+    "prefix" : "en_US",
+    "title" : "English"
+  }
+}
