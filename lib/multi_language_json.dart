@@ -5,14 +5,25 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
-import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MultiStreamLanguage extends StatelessWidget {
+  /// On language change
   final Function onChange;
+
+  /// route in json, ex:
+  /// {
+  ///   "a" : {
+  ///     "b" : "value"
+  ///   }
+  /// }
+  ///
+  /// to get only "b" I pass: ['a', 'b']
   final List<String> screenRoute;
   final languageBloc = MultiLanguageBloc._instance;
+
+  /// Widget child
   final Widget Function(BuildContext c, LangSupport data) builder;
 
   MultiStreamLanguage(
@@ -25,42 +36,56 @@ class MultiStreamLanguage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      initialData: languageBloc.currentValue,
-      stream: languageBloc.outStreamList,
-      builder: (context, s) {
-        dynamic globalScreenRoute =
-            languageBloc._languages[languageBloc.defaultLanguage];
-        dynamic screenRoute = s.data;
+        initialData: languageBloc.currentValue,
+        stream: languageBloc.outStreamList,
+        builder: (context, s) {
+          dynamic globalScreenRoute =
+              languageBloc._languages[languageBloc.defaultLanguage];
+          dynamic screenRoute = s.data;
 
-        this.screenRoute.forEach((v) {
-          if (globalScreenRoute != null)
-            globalScreenRoute = globalScreenRoute[v];
-          if (screenRoute != null) screenRoute = screenRoute[v];
+          this.screenRoute.forEach((v) {
+            if (globalScreenRoute != null)
+              globalScreenRoute = globalScreenRoute[v];
+            if (screenRoute != null) screenRoute = screenRoute[v];
+          });
+
+          return builder(
+              context,
+              LangSupport(
+                  languageBloc._languages[languageBloc.defaultLanguage],
+                  s.data,
+                  globalScreenRoute,
+                  screenRoute,
+                  languageBloc.commonRoute));
         });
-
-        return builder(
-            context,
-            LangSupport(
-                languageBloc._languages[languageBloc.defaultLanguage],
-                s.data,
-                globalScreenRoute,
-                screenRoute,
-                languageBloc.commonRoute));
-      },
-    );
   }
 }
 
 class MultiLanguageBloc implements BlocBase {
+  /// Last language selected
   String lastLanguage;
+
+  /// List ofs languages
   final _languages = {};
+
+  /// Route common in to screens
   final String commonRoute;
+
+  /// Default language
   final String defaultLanguage;
+
+  /// List of supported languages ex: ['en_US', 'pt_BR']
+  /// Here you pass the names of files in folder "lang" without the ".json"
   final List<String> supportedLanguages;
   final _language = BehaviorSubject<Map<String, dynamic>>();
 
+  /// Stream of languages
   Stream<dynamic> get outStreamList => _language.stream;
-  Map<dynamic, dynamic> get currentValue => _language.value;
+
+  /// Current json [Full]
+  Map<dynamic, dynamic> get currentValue => _languages[lastLanguage];
+
+  /// Current common in current json selected
   Map<dynamic, dynamic> get currentCommon =>
       commonRoute != null ? currentValue[commonRoute] : [];
 
@@ -84,6 +109,7 @@ class MultiLanguageBloc implements BlocBase {
       this.lastLanguage,
       this.commonRoute});
 
+  /// Required called before all to load all jsons
   Future<void> init() async {
     this.lastLanguage ??= defaultLanguage;
     for (int i = 0; i < supportedLanguages.length; i++) {
@@ -95,10 +121,11 @@ class MultiLanguageBloc implements BlocBase {
   }
 
   Future<MultiLanguageBloc> _setDeviceLanguage() async {
-    await changeLanguage(await Devicelocale.currentLocale);
+    await changeLanguage(this.defaultLanguage);
     return this;
   }
 
+  /// Change current language passing prefix ex: [changeLanguage('en_US')]
   Future<void> changeLanguage(String prefix) async {
     if (_languages[prefix] == null) {
       prefix = this.defaultLanguage;
@@ -116,10 +143,12 @@ class MultiLanguageBloc implements BlocBase {
     }
   }
 
+  /// Get list of languages in route "config" inside jsons
   List<Map<dynamic, dynamic>> getListLanguage() {
     return _languages.values.map<Map>((v) => v['config']).toList();
   }
 
+  /// Show alert to change language
   Future<dynamic> showAlertChangeLanguage(
       {@required context,
       @required String title,

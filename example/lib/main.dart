@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:multilanguage/multi_language_json.dart';
+import 'package:multi_language_json/multi_language_json.dart';
 
 void main() => runApp(MyApp());
 

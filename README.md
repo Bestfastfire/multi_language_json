@@ -5,6 +5,12 @@ A simple way to support your Flutter application with multiple languages!
 
 ![Gravar_2020_04_12_05_50_22_436](https://user-images.githubusercontent.com/22732544/79065252-6aa64e80-7c85-11ea-99f4-32904a624331.gif)
 
+## Help Maintenance
+
+I've been maintaining quite many repos these days and burning out slowly. If you could help me cheer up, buying me a cup of coffee will make my life really happy and get much energy out of it.
+
+<a href="https://www.buymeacoffee.com/RtrHv1C" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
 ## Getting Started
 First you need create a directory in your main folder with name lang like this:
 
@@ -125,9 +131,3 @@ This will show an alert dialog like this (Language and flag listing is done auto
 To change the language programmatically, just call this method passing as the language prefix ex:
 
     language.changeLanguage('pt_BR');
-
-## Help Maintenance
-
-I've been maintaining quite many repos these days and burning out slowly. If you could help me cheer up, buying me a cup of coffee will make my life really happy and get much energy out of it.
-
-<a href="https://www.buymeacoffee.com/RtrHv1C" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>

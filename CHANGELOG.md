@@ -1,3 +1,6 @@
+## [1.1.0] - Fix
+* Fix bug in getter "currentValue"
+
 ## [1.0.0+2] - Fix dependencies.
 
 ## [1.0.0+1] - Fixed warnings.
