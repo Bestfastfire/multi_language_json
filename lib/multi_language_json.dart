@@ -260,6 +260,6 @@ class LangSupport {
   }
 }
 
-abstract class _Bloc{
+abstract class _Bloc {
   void dispose();
 }
