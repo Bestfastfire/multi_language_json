@@ -2,7 +2,6 @@ library multi_language_json;
 
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
