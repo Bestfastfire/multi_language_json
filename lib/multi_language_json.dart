@@ -61,7 +61,7 @@ class MultiStreamLanguage extends StatelessWidget {
   }
 }
 
-class MultiLanguageBloc implements BlocBase {
+class MultiLanguageBloc implements _Bloc {
   /// Last language selected
   String lastLanguage;
 
@@ -211,18 +211,6 @@ class MultiLanguageBloc implements BlocBase {
   void dispose() {
     _language.close();
   }
-
-  @override
-  void addListener(listener) {}
-
-  @override
-  bool get hasListeners => null;
-
-  @override
-  void notifyListeners() {}
-
-  @override
-  void removeListener(listener) {}
 }
 
 class MultiLanguageStart extends StatelessWidget {
@@ -271,4 +259,8 @@ class LangSupport {
 
     return toReturn ?? (toHelp ?? 'NULL');
   }
+}
+
+abstract class _Bloc{
+  void dispose();
 }

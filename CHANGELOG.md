@@ -1,3 +1,5 @@
+## [1.1.0+1] - Fix dependencies
+
 ## [1.1.0] - Fix
 * Fix bug in getter "currentValue"
 
