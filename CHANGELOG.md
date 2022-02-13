@@ -1,3 +1,5 @@
+## [1.2.0] - Null Safety
+
 ## [1.1.0+2] - Format
 
 ## [1.1.0+1] - Fix dependencies

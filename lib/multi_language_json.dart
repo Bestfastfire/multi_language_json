@@ -1,15 +1,15 @@
 library multi_language_json;
 
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:country_pickers/country.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'dart:convert';
 
 class MultiStreamLanguage extends StatelessWidget {
   /// On language change
-  final Function onChange;
+  final Function? onChange;
 
   /// route in json, ex:
   /// {
@@ -26,20 +26,20 @@ class MultiStreamLanguage extends StatelessWidget {
   final Widget Function(BuildContext c, LangSupport data) builder;
 
   MultiStreamLanguage(
-      {@required this.builder, this.screenRoute = const [], this.onChange}) {
+      {required this.builder, this.screenRoute = const [], this.onChange}) {
     if (onChange != null) {
-      languageBloc.outStreamList.listen((v) => onChange());
+      languageBloc?.outStreamList.listen((v) => onChange!());
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        initialData: languageBloc.currentValue,
-        stream: languageBloc.outStreamList,
+        initialData: languageBloc?.currentValue,
+        stream: languageBloc?.outStreamList,
         builder: (context, s) {
           dynamic globalScreenRoute =
-              languageBloc._languages[languageBloc.defaultLanguage];
+              languageBloc?._languages[languageBloc?.defaultLanguage];
           dynamic screenRoute = s.data;
 
           this.screenRoute.forEach((v) {
@@ -51,11 +51,11 @@ class MultiStreamLanguage extends StatelessWidget {
           return builder(
               context,
               LangSupport(
-                  languageBloc._languages[languageBloc.defaultLanguage],
+                  languageBloc?._languages[languageBloc?.defaultLanguage],
                   s.data,
                   globalScreenRoute,
                   screenRoute,
-                  languageBloc.commonRoute));
+                  languageBloc?.commonRoute));
         });
   }
 }
@@ -68,7 +68,7 @@ class MultiLanguageBloc implements _Bloc {
   final _languages = {};
 
   /// Route common in to screens
-  final String commonRoute;
+  final String? commonRoute;
 
   /// Default language
   final String defaultLanguage;
@@ -88,29 +88,27 @@ class MultiLanguageBloc implements _Bloc {
   Map<dynamic, dynamic> get currentCommon =>
       commonRoute != null ? currentValue[commonRoute] : [];
 
-  static MultiLanguageBloc _instance;
+  static MultiLanguageBloc? _instance;
   factory MultiLanguageBloc(
-      {@required List<String> supportedLanguages,
-      @required String defaultLanguage,
-      @required String initialLanguage,
-      String commonRoute}) {
-    _instance ??= MultiLanguageBloc._internal(
+      {required List<String> supportedLanguages,
+      required String defaultLanguage,
+      String? initialLanguage,
+      String? commonRoute}) {
+    return _instance ??= MultiLanguageBloc._internal(
         supportedLanguages: supportedLanguages,
         defaultLanguage: defaultLanguage,
-        lastLanguage: initialLanguage,
+        lastLanguage: initialLanguage ?? defaultLanguage,
         commonRoute: commonRoute);
-    return _instance;
   }
 
   MultiLanguageBloc._internal(
-      {this.supportedLanguages,
-      this.defaultLanguage,
-      this.lastLanguage,
+      {required this.supportedLanguages,
+      required this.defaultLanguage,
+      required this.lastLanguage,
       this.commonRoute});
 
   /// Required called before all to load all jsons
   Future<void> init() async {
-    this.lastLanguage ??= defaultLanguage;
     for (int i = 0; i < supportedLanguages.length; i++) {
       this._languages[supportedLanguages[i]] =
           await parseJsonFromAssets('lang/' + supportedLanguages[i]);
@@ -149,9 +147,9 @@ class MultiLanguageBloc implements _Bloc {
 
   /// Show alert to change language
   Future<dynamic> showAlertChangeLanguage(
-      {@required context,
-      @required String title,
-      @required String btnNegative}) async {
+      {required BuildContext context,
+      required String title,
+      required String btnNegative}) async {
     List<Map<dynamic, dynamic>> out = this.getListLanguage();
 
     return await showDialog(
@@ -159,10 +157,9 @@ class MultiLanguageBloc implements _Bloc {
         builder: (context) => AlertDialog(
               title: Text(title),
               actions: <Widget>[
-                FlatButton(
-                  child: Text(btnNegative),
-                  onPressed: () => Navigator.pop(context),
-                ),
+                TextButton(
+                    child: Text(btnNegative),
+                    onPressed: () => Navigator.pop(context)),
               ],
               content: Container(
                 width: MediaQuery.of(context).size.height * 0.8,
@@ -176,8 +173,11 @@ class MultiLanguageBloc implements _Bloc {
                           ? Colors.blueAccent[700]
                           : Colors.transparent,
                       child: ListTile(
-                        leading: CountryPickerUtils.getDefaultFlagImage(
-                            Country(isoCode: out[index]['iso_code'])),
+                        leading: CountryPickerUtils.getDefaultFlagImage(Country(
+                            isoCode: out[index]['iso_code'],
+                            iso3Code: '',
+                            name: '',
+                            phoneCode: '')),
                         selected: currentValue['config']['prefix'] ==
                             out[index]['prefix'],
                         title: Text(
@@ -214,10 +214,11 @@ class MultiLanguageBloc implements _Bloc {
 
 class MultiLanguageStart extends StatelessWidget {
   final future;
-  final Widget loadWidget;
+  final Widget? loadWidget;
   final Function(BuildContext context) builder;
+
   MultiLanguageStart(
-      {@required this.future, @required this.builder, this.loadWidget});
+      {required this.future, required this.builder, this.loadWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +248,7 @@ class LangSupport {
     return getValue(inRoute: false, route: [this._commonKey]);
   }
 
-  dynamic getValue({@required List<String> route, bool inRoute = true}) {
+  dynamic getValue({required List<String> route, bool inRoute = true}) {
     dynamic toReturn = inRoute ? _currentRouteLang : _currentLang;
     dynamic toHelp = inRoute ? _defaultRouteLang : _defaultLang;
 
